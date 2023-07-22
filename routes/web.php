@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\FileController;
+use App\Mail\FileMail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +17,17 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('create');
+})->name('home');
+
+Route::post('upload/file',[FileController::class,'store'])->name('uploadFile');
+
+Route::get('/download/file',function () {
+    return view('downloadForm');
+})->name('download.form');
+
+Route::get('/preview/file/{fileId?}',[FileController::class, 'preview'])->name('preview');
+
+Route::get('/files/download-zip/{fileId?}', [FileController::class, 'downloadZip'])->name('download');
+Route::get('/files/download/{file}', [FileController::class, 'download'])->name('download.file');
+
